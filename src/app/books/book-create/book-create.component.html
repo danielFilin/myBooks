@@ -1,0 +1,46 @@
+<div class="d-flex justify-content-center" *ngIf='isLoading'>
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+  <form [formGroup]='form' (submit)='onSaveBook()' *ngIf='!isLoading'>
+    <div class="form-group">
+      <label for="name">Author Name</label>
+      <input type="text"
+        class="form-control"
+        placeholder="John Doe"
+        formControlName='author'
+         >
+      <small class="form-text text-muted">Please enter a full name</small>
+      <!-- <div *ngIf="form.get('author').invalid">Error</div> -->
+    </div>
+    <div class="form-group">
+      <label for="book-name">Book Title</label>
+      <input type="text"
+       class="form-control"
+        placeholder="Book of all books"
+        formControlName='title'>
+    </div>
+    <div class="form-group">
+      <label for="book-description">Short description</label>
+      <textarea
+        type="text"
+        class="form-control"
+        placeholder="Book of all books"
+        formControlName='description'
+        ></textarea>
+    </div>
+    <label>Add book image</label>
+    <div class="custom-file">
+      <input type="file" class="custom-file-input" id="customFile" #filePicker (change)='onImagePicked($event)'>
+      <label class="custom-file-label" for="customFile">Choose file</label>
+    </div>
+    <div class='image-preview' *ngIf='imagePreview !== "" && imagePreview && form.get("image").valid'>
+      <img [src]="imagePreview" [alt]="form.value.title">
+    </div>
+    <button class="btn btn-primary">Add to collection</button>
+  </form>
+
+
+
+

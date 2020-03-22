@@ -1,0 +1,12 @@
+a {
+  color: rgb(61, 97, 6);
+  font-weight: 600;
+}
+
+a:hover {
+  color: rgb(192, 59, 26)
+}
+
+.is-active{
+  color: rgb(118, 110, 223)
+}
