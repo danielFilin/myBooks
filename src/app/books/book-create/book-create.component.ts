@@ -1,26 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BooksService } from '../books.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Book } from '../book.model';
 import { mimeType } from './mime-type.validator';
+import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-book-create',
   templateUrl: './book-create.component.html',
   styleUrls: ['./book-create.component.css']
 })
-export class BookCreateComponent implements OnInit {
+export class BookCreateComponent implements OnInit, OnDestroy {
   private mode = 'create';
   private bookId: string;
+  private authServiceSub: Subscription;
   book: Book;
   form: FormGroup;
   isLoading = false;
   imagePreview: string;
 
-  constructor(public booksService: BooksService, public route: ActivatedRoute) { }
+  constructor(public booksService: BooksService, public route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit() {
+    this.authServiceSub = this.authService.getAuthStatusListener().subscribe(
+      authStatus => {
+        this.isLoading = false;
+      }
+    );
     this.form = new FormGroup({
       title: new FormControl(null, {validators: [Validators.required]}),
       author: new FormControl(null, {validators: [Validators.required]}),
@@ -42,7 +50,8 @@ export class BookCreateComponent implements OnInit {
             title: bookData['books'].title,
             author: bookData['books'].author,
             description: bookData['books'].description,
-            imagePath: bookData['books'].imagePath
+            imagePath: bookData['books'].imagePath,
+            creator: bookData['books'].creator
           };
           this.isLoading = false;
           this.form.setValue({
@@ -92,6 +101,10 @@ export class BookCreateComponent implements OnInit {
       this.imagePreview = (reader.result as string);
     };
     reader.readAsDataURL(file);
+  }
+
+  ngOnDestroy() {
+    this.authServiceSub.unsubscribe();
   }
 
 }

@@ -34,7 +34,8 @@ router.post('', checkAuth, multer({storage: fileStorage}).single('image'), (req,
     title: req.body.title,
     author: req.body.author,
     description: req.body.description,
-    imagePath: url + '/images/' + req.file.filename
+    imagePath: url + '/images/' + req.file.filename,
+    creator: req.userData.userId
   });
   book.save().then(createdBook => {
     res.status(201).json({
@@ -49,7 +50,12 @@ router.post('', checkAuth, multer({storage: fileStorage}).single('image'), (req,
         id: createdBook._id
       }
     });
-  });
+  })
+  .catch (err => {
+    res.status(500).json({
+      message: 'Post was not created'
+    })
+  })
 });
 
 router.get('/:id', async (req, res, next) => {
@@ -64,30 +70,41 @@ router.get('/:id', async (req, res, next) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: err
+      message: 'fetching post failed'
     })
   }
 });
 
 router.put('/:id', checkAuth, multer({storage: fileStorage}).single('image'),
 async (req, res, next) => {
-  let imagePath = req.body.imagePath;
-  if (req.file) {
-    const url = req.protocol + '://' + req.get('host');
-    imagePath = url + '/images/' + req.file.filename;
+  try {
+    let imagePath = req.body.imagePath;
+    if (req.file) {
+      const url = req.protocol + '://' + req.get('host');
+      imagePath = url + '/images/' + req.file.filename;
+    }
+    const book = new Book ({
+      _id: req.body.id,
+      title: req.body.title,
+      author: req.body.author,
+      description: req.body.description,
+      imagePath: imagePath,
+      creator: req.userData.user
+    })
+    const updatedResult = await Book.updateOne({_id: req.params.id, creator: req.userData.userId}, book);
+    if (!updatedResult.nModified > 0) {
+      throw ('User is not authorized to update');
+    }
+    res.status(200).json({
+      message: 'update successefull',
+      body: req.body
+    })
+  } catch (err) {
+    res.status(500).json({
+      message: 'fail',
+      error: err
+    })
   }
-  const book = new Book ({
-    _id: req.body.id,
-    title: req.body.title,
-    author: req.body.author,
-    description: req.body.description,
-    imagePath: imagePath
-  })
-  await Book.updateOne({_id: req.params.id}, book);
-  res.status(200).json({
-    message: 'update successefull',
-    body: req.body
-  })
 });
 
 router.get('', async (req, res, next) => {
@@ -110,23 +127,27 @@ router.get('', async (req, res, next) => {
       maxBooks: bookCount
     })
   } catch (err) {
-    res.status(400).json({
+    res.status(500).json({
       statis: 'fail',
-      message: err
+      message: 'fetching posts failed'
     })
   }
 });
 
 router.delete('/:id', checkAuth, async (req, res, next) => {
   try{
-    await Book.findByIdAndDelete(req.params.id);
+    const deletedInfo = await Book.deleteOne({_id: req.params.id, creator: req.userData.userId});
+    if (!deletedInfo.n) {
+      throw ('unathorized request');
+    }
     res.status(200).json({
       message: 'Book deleted!',
     });
   } catch (err) {
+    console.log(err);
     res.status(400).json({
       statis: 'fail',
-      message: err
+      message: 'post failed to delete'
     })
   };
 });

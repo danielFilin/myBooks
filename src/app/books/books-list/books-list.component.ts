@@ -22,6 +22,7 @@ export class BooksListComponent implements OnInit, OnDestroy {
   totalPosts = 0;
   booksPerPage = 2;
   currentPage = 1;
+  userId: string;
   private authStatusSubs: Subscription;
   userIsAuthenticated = false;
 
@@ -30,6 +31,7 @@ export class BooksListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading = true;
     this.booksService.getBooks(this.booksPerPage, this.currentPage);
+    this.userId = this.authService.getUserId();
     this.booksSubscription = this.booksService.getUpdatedBookList()
     .subscribe( (booData: {books: Book[], bookCount: number}) => {
       this.books = booData.books;
@@ -40,6 +42,7 @@ export class BooksListComponent implements OnInit, OnDestroy {
     this.authStatusSubs = this.authService.getAuthStatusListener()
     .subscribe( isAuthenticated => {
       this.userIsAuthenticated = isAuthenticated;
+      this.userId = this.authService.getUserId();
     });
   }
 
@@ -55,6 +58,8 @@ export class BooksListComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.booksService.deleteBook(bookId).subscribe( () => {
       this.booksService.getBooks(this.booksPerPage, this.currentPage);
+    }, () => {
+      this.isLoading = false;
     });
   }
 

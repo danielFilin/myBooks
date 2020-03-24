@@ -42,7 +42,7 @@
         <div class="card-body">
           Short description: {{ book.description}}
          </div>
-        <div *ngIf='userIsAuthenticated'>
+        <div *ngIf='userIsAuthenticated && userId === book.creator'>
           <button (click)="onDeleteBook(book.id)" class="btn btn-danger">Delete Book</button>
           <button [routerLink]="['/edit', book.id]" class="btn btn-info">Edit Book</button>
         </div>

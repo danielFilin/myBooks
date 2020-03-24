@@ -14,7 +14,6 @@ export class BooksService {
 
   private myBooks: Book[] = [];
   updatedBookList = new Subject<{books: Book[], bookCount: number}>();
-
   getUpdatedBookList() {
     return this.updatedBookList.asObservable();
   }
@@ -42,7 +41,14 @@ export class BooksService {
         bookData.append('description', description);
         bookData.append('image', image, title);
       }  else {
-        bookData = {id, author, title, description, imagePath: image};
+        bookData = {
+          id,
+          author,
+          title,
+          description,
+          imagePath: image,
+          creator: null
+        };
       }
       this.http.put('http://localhost:3000/api/books/' + id, bookData)
     .subscribe( response =>{
@@ -52,7 +58,14 @@ export class BooksService {
 
   getSingleBook(id: string) {
     // return {...this.myBooks.find( book => book.id === id)};
-    return this.http.get<{_id: string, title: string, author: string, description: string, imagePath: string}>('http://localhost:3000/api/books/' + id);
+    return this.http.get<{
+      _id: string,
+      title: string,
+      author: string,
+      description: string,
+      imagePath: string,
+      creator: string
+    }>('http://localhost:3000/api/books/' + id);
   }
 
   getBooks(postsPerPage: number, currentPage: number) {
@@ -67,7 +80,8 @@ export class BooksService {
           author: book.author,
           description: book.description,
           id: book._id,
-          imagePath: book.imagePath
+          imagePath: book.imagePath,
+          creator: book.creator
         };
       }), maxBooks: bookData.maxBooks};
     })

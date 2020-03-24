@@ -13,6 +13,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { ErrorInterceptor } from './books/error-interceptor';
 
 
 @NgModule({
@@ -33,7 +34,9 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     FormsModule,
 
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}],
-  bootstrap: [AppComponent]
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

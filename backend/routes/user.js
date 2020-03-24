@@ -19,9 +19,9 @@ router.post('/signup', async (req, res, next)  => {
       result: newUser
     })
   } catch (err) {
-    res.status(404).json({
+    res.status(500).json({
       status: 'fail',
-      message: err
+      message: 'Invalid authentication credentials.'
     })
   }
 });
@@ -40,14 +40,16 @@ router.post('/login', async (req, res, next) => {
     const token = jwt.sign({email: activeUser.email, userId: activeUser._id}, 'some_secrect_token_for_hashing', { expiresIn: '1h'});
 
     res.status(200).json({
-      token: token
-    })
+      token: token,
+      expiresIn: 3600,
+      userId: activeUser._id
+    });
 
   } catch (err) {
     console.log(err);
     res.status(401).json({
       status: 'fail',
-      message: err
+      message: 'Invalid authentication credentials'
     })
   }
 })

@@ -4,4 +4,5 @@ export interface Book {
   description: string;
   id: string;
   imagePath: string;
+  creator: string;
 }
