@@ -20,6 +20,7 @@ export class BookCreateComponent implements OnInit, OnDestroy {
   form: FormGroup;
   isLoading = false;
   imagePreview: string;
+  formStatus = false;
 
   constructor(public booksService: BooksService, public route: ActivatedRoute, private authService: AuthService) { }
 
@@ -70,6 +71,7 @@ export class BookCreateComponent implements OnInit, OnDestroy {
 
   onSaveBook() {
     if (this.form.invalid) {
+      this.formStatus = true;
       return;
     }
     const id = null;

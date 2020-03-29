@@ -4,6 +4,9 @@ import { map } from 'rxjs/operators';
 import { Book } from './book.model';
 import { HttpClient} from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
+
+const BACKEND_URL = environment.apiUrl + '/books/';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +27,7 @@ export class BooksService {
     bookData.append('author', author);
     bookData.append('description', description);
     bookData.append('image', image, title);
-    this.http.post<{message: string, book: Book}>('http://localhost:3000/api/books', bookData)
+    this.http.post<{message: string, book: Book}>(BACKEND_URL, bookData)
     .subscribe( (responseData) => {
       this.router.navigate(['/']);
     });
@@ -50,8 +53,8 @@ export class BooksService {
           creator: null
         };
       }
-      this.http.put('http://localhost:3000/api/books/' + id, bookData)
-    .subscribe( response =>{
+      this.http.put(BACKEND_URL + id, bookData)
+    .subscribe( response => {
       this.router.navigate(['/']);
     });
   }
@@ -65,14 +68,12 @@ export class BooksService {
       description: string,
       imagePath: string,
       creator: string
-    }>('http://localhost:3000/api/books/' + id);
+    }>(BACKEND_URL + id);
   }
 
-  getBooks(postsPerPage: number, currentPage: number) {
-    console.log(postsPerPage);
-    const queryParams = `?pagesize=${postsPerPage}&startingpage=${currentPage}`;
-
-    this.http.get<{message: string, books: any, maxBooks: number}>('http://localhost:3000/api/books' + queryParams)
+  getBooks(postsPerPage: number, currentPage: number, userId: string) {
+    const queryParams = `?pagesize=${postsPerPage}&startingpage=${currentPage}&userid=${userId}`;
+    this.http.get<{message: string, books: any, maxBooks: number}>(BACKEND_URL + queryParams)
     .pipe(map ((bookData) => {
       return {books: bookData.books.map(book => {
         return {
@@ -96,7 +97,7 @@ export class BooksService {
   }
 
   deleteBook(bookId: string) {
-    return this.http.delete('http://localhost:3000/api/books/' + bookId);
+    return this.http.delete(BACKEND_URL + bookId);
   }
 
 }

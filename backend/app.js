@@ -11,8 +11,9 @@ mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useUnifiedTopology', true);
 
-mongoose.connect('mongodb+srv://filin:5vY3cIYdfmhhIELQ@cluster0-85nqo.mongodb.net/books?retryWrites=true&w=majority').then( () => {
-  console.log('connected to DB');
+mongoose.connect('mongodb+srv://filin:' + process.env.MONGO_ATLAS_PW + '@cluster0-85nqo.mongodb.net/books?retryWrites=true&w=majority').then( () => {
+  console.log((path.join(__dirname, 'images')))
+  console.log('connected to DB 22');
 })
 .catch( ()=> {
   console.log('connectionf failed');
@@ -20,9 +21,12 @@ mongoose.connect('mongodb+srv://filin:5vY3cIYdfmhhIELQ@cluster0-85nqo.mongodb.ne
 
 const app = express();
 
-app.use('/images', express.static(path.join('backend/images')));
-
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/', express.static(path.join(__dirname, 'books-project')));
+
+
 
 app.use( (req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -35,5 +39,8 @@ app.use( (req, res, next) => {
 
 app.use('/api/books', BooksRoutes);
 app.use('/api/user', userRoutes);
+app.use((req, res, next) => {
+  res.sendFile(path.join(__dirname, 'books-project', 'index.html'));
+});
 
 module.exports = app;

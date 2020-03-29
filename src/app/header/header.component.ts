@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
+import { BooksService } from '../books/books.service';
 
 @Component({
   selector: 'app-header',
@@ -11,8 +12,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private authListenerSubs: Subscription;
   userIsAuthenticated = false;
+  userId: string;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private booksService: BooksService) { }
 
   ngOnInit(): void {
     this.userIsAuthenticated = this.authService.getIsAuth();
@@ -27,6 +29,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.authListenerSubs.unsubscribe();
+  }
+
+  showCollection(event) {
+    this.userId = this.authService.getUserId();
+    if (event.innerHTML === 'Show All Books') {
+      this.booksService.getBooks(10, 1, '-1');
+      event.innerHTML = 'Show My Books';
+    } else {
+      this.booksService.getBooks(10, 1, this.userId);
+      event.innerHTML = 'Show All Books';
+    }
   }
 
 }

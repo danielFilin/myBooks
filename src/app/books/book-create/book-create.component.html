@@ -3,34 +3,43 @@
     <span class="sr-only">Loading...</span>
   </div>
 </div>
-  <form [formGroup]='form' (submit)='onSaveBook()' *ngIf='!isLoading'>
+<div class="d-flex justify-content-center align-items-center container ">
+
+  <div class="row">
+  <form [formGroup]='form' id='new-book-form' (submit)='onSaveBook()' *ngIf='!isLoading'>
     <div class="form-group">
-      <label for="name">Author Name</label>
+      <h5 for="name">Author Name</h5>
       <input type="text"
         class="form-control"
         placeholder="John Doe"
         formControlName='author'
-         >
+        >
       <small class="form-text text-muted">Please enter a full name</small>
+      <p *ngIf='formStatus' class='wrong-input'>This field cannot be empty</p>
       <!-- <div *ngIf="form.get('author').invalid">Error</div> -->
     </div>
     <div class="form-group">
-      <label for="book-name">Book Title</label>
+      <h5 for="book-name">Book Title</h5>
       <input type="text"
        class="form-control"
         placeholder="Book of all books"
         formControlName='title'>
     </div>
+    <small class="form-text text-muted">Please enter the title of the book</small>
+    <p *ngIf='formStatus' class='wrong-input'>This field cannot be empty</p>
     <div class="form-group">
-      <label for="book-description">Short description</label>
+      <h5 for="book-description">Short description</h5>
       <textarea
+        rows="5"
         type="text"
         class="form-control"
         placeholder="Book of all books"
         formControlName='description'
         ></textarea>
+        <small class="form-text text-muted">What is the book about? Describe it please</small>
+        <p *ngIf='formStatus' class='wrong-input'>This field cannot be empty</p>
     </div>
-    <label>Add book image</label>
+    <h6>Add book image</h6>
     <div class="custom-file">
       <input type="file" class="custom-file-input" id="customFile" #filePicker (change)='onImagePicked($event)'>
       <label class="custom-file-label" for="customFile">Choose file</label>
@@ -38,8 +47,10 @@
     <div class='image-preview' *ngIf='imagePreview !== "" && imagePreview && form.get("image").valid'>
       <img [src]="imagePreview" [alt]="form.value.title">
     </div>
-    <button class="btn btn-primary">Add to collection</button>
+    <button [disabled]='form.invalid' #addEditButton class="btn btn-primary mt-3" >Add to collection</button>
   </form>
+  </div>
+</div>
 
 
 

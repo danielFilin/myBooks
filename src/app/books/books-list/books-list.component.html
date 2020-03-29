@@ -1,6 +1,27 @@
-<form (submit)='onSelect(selectForm)' #selectForm='ngForm' *ngIf='books.length > 0'>
-  <h4>Select what pages to show</h4>
-   <div class="form-group">
+<app-search></app-search>
+<h1 class="text-center mb-5">My Library</h1>
+<div class="d-flex justify-content-center" *ngIf='isLoading'>
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<div *ngIf='books.length > 0 && !isLoading'>
+  <div class="card my-books mb-3 mr-3" style="width: 18rem;" *ngFor='let book of books'>
+    <h5 class="card-title text-center"> Book Title: {{ book.title}} By: {{ book.author}}</h5>
+    <img [src]="book.imagePath" [alt]="book.title" class="card-img-top">
+    <div class="card-body">
+
+      <p class="card-text">Short description: {{ book.description}}</p>
+      <div *ngIf='userIsAuthenticated && userId === book.creator'>
+        <button (click)="onDeleteBook(book.id)" class="btn btn-danger mr-3">Delete Book</button>
+        <button [routerLink]="['/edit', book.id]" class="btn btn-info">Edit Book</button>
+      </div>
+    </div>
+  </div>
+<p *ngIf='books.length <= 0 !isLoading'> No books</p>
+<form (submit)='onSelect(selectForm)' class='mt-5' #selectForm='ngForm' *ngIf='books.length > 0'>
+  <h4 class='text-center'>Select what pages to show</h4>
+   <div class="form-group" >
      <label for="sel1">Select starting page:</label>
      <select class="form-control w-25" name='startingPage' ngModel #startingPage='ngModel'>
        <option>1</option>
@@ -17,39 +38,7 @@
       <option>5</option>
     </select>
   </div>
-   <button class="btn btn-primary">Select</button>
+   <button class="btn btn-primary mb-3">Select</button>
  </form>
-<div class="d-flex justify-content-center" *ngIf='isLoading'>
-  <div class="spinner-border" role="status">
-    <span class="sr-only">Loading...</span>
-  </div>
-</div>
-<div *ngIf='books.length > 0 && !isLoading'>
-  <div id="accordion" *ngFor='let book of books'>
-    <div class="card">
-      <div class="card-header text-center">
-        <a class="card-link" data-toggle="collapse" href="#collapseOne">
-         Book Title: {{ book.title}}
-        </a>
-      </div>
-      <div id="collapseOne" class="collapse show" data-parent="#accordion">
-        <div class="card-body">
-         Author: {{ book.author}}
-        </div>
-        <div class="book-image">
-          <img [src]="book.imagePath" [alt]="book.title" default-src='none'>
-        </div>
-        <div class="card-body">
-          Short description: {{ book.description}}
-         </div>
-        <div *ngIf='userIsAuthenticated && userId === book.creator'>
-          <button (click)="onDeleteBook(book.id)" class="btn btn-danger">Delete Book</button>
-          <button [routerLink]="['/edit', book.id]" class="btn btn-info">Edit Book</button>
-        </div>
-
-      </div>
-    </div>
-  </div>
-<p *ngIf='books.length <= 0 !isLoading'> No books</p>
 
 

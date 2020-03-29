@@ -20,7 +20,7 @@ export class BooksListComponent implements OnInit, OnDestroy {
   booksSubscription: Subscription;
   isLoading = false;
   totalPosts = 0;
-  booksPerPage = 2;
+  booksPerPage = 10;
   currentPage = 1;
   userId: string;
   private authStatusSubs: Subscription;
@@ -30,8 +30,8 @@ export class BooksListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.booksService.getBooks(this.booksPerPage, this.currentPage);
     this.userId = this.authService.getUserId();
+    this.booksService.getBooks(this.booksPerPage, this.currentPage, this.userId);
     this.booksSubscription = this.booksService.getUpdatedBookList()
     .subscribe( (booData: {books: Book[], bookCount: number}) => {
       this.books = booData.books;
@@ -51,13 +51,13 @@ export class BooksListComponent implements OnInit, OnDestroy {
     this.currentPage = form.value.startingPage;
     this.booksPerPage = form.value.pagesNumber;
     console.log(this.booksPerPage, this.currentPage);
-    this.booksService.getBooks(this.booksPerPage, this.currentPage);
+    this.booksService.getBooks(this.booksPerPage, this.currentPage, this.userId);
   }
 
   onDeleteBook(bookId: string) {
     this.isLoading = true;
     this.booksService.deleteBook(bookId).subscribe( () => {
-      this.booksService.getBooks(this.booksPerPage, this.currentPage);
+      this.booksService.getBooks(this.booksPerPage, this.currentPage, this.userId);
     }, () => {
       this.isLoading = false;
     });
