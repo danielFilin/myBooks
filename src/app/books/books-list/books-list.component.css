@@ -8,11 +8,23 @@
 }
 
 .my-books{
-  display: inline-block;
+  display: inline-flex;
 }
 
 .card-img-top {
   width: 100%;
   height: 15vw;
   object-fit: cover;
+}
+
+.description-text{
+  font-size: small;
+}
+
+.book-card{
+  padding: 0.5rem;
+}
+
+.book-card-body{
+  padding: 0.3rem;
 }

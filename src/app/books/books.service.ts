@@ -60,7 +60,6 @@ export class BooksService {
   }
 
   getSingleBook(id: string) {
-    // return {...this.myBooks.find( book => book.id === id)};
     return this.http.get<{
       _id: string,
       title: string,

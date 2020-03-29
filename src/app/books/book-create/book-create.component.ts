@@ -20,7 +20,6 @@ export class BookCreateComponent implements OnInit, OnDestroy {
   form: FormGroup;
   isLoading = false;
   imagePreview: string;
-  formStatus = false;
 
   constructor(public booksService: BooksService, public route: ActivatedRoute, private authService: AuthService) { }
 
@@ -71,7 +70,7 @@ export class BookCreateComponent implements OnInit, OnDestroy {
 
   onSaveBook() {
     if (this.form.invalid) {
-      this.formStatus = true;
+
       return;
     }
     const id = null;
@@ -103,6 +102,18 @@ export class BookCreateComponent implements OnInit, OnDestroy {
       this.imagePreview = (reader.result as string);
     };
     reader.readAsDataURL(file);
+  }
+
+  get author() {
+    return this.form.get('author');
+  }
+
+  get title() {
+    return this.form.get('title');
+  }
+
+  get description() {
+    return this.form.get('description');
   }
 
   ngOnDestroy() {

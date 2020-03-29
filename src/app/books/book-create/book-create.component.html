@@ -15,18 +15,17 @@
         formControlName='author'
         >
       <small class="form-text text-muted">Please enter a full name</small>
-      <p *ngIf='formStatus' class='wrong-input'>This field cannot be empty</p>
-      <!-- <div *ngIf="form.get('author').invalid">Error</div> -->
+      <span class='text-danger' *ngIf='author.invalid && author.touched'>This field cannot be left empty!</span>
     </div>
     <div class="form-group">
       <h5 for="book-name">Book Title</h5>
       <input type="text"
        class="form-control"
         placeholder="Book of all books"
-        formControlName='title'>
+        formControlName="title">
     </div>
     <small class="form-text text-muted">Please enter the title of the book</small>
-    <p *ngIf='formStatus' class='wrong-input'>This field cannot be empty</p>
+    <span class='text-danger' *ngIf='title.invalid && title.touched'>This field cannot be left empty!</span>
     <div class="form-group">
       <h5 for="book-description">Short description</h5>
       <textarea
@@ -37,13 +36,14 @@
         formControlName='description'
         ></textarea>
         <small class="form-text text-muted">What is the book about? Describe it please</small>
-        <p *ngIf='formStatus' class='wrong-input'>This field cannot be empty</p>
+        <span class='text-danger' *ngIf='description.invalid && description.touched'>This field cannot be left empty!</span>
     </div>
     <h6>Add book image</h6>
     <div class="custom-file">
       <input type="file" class="custom-file-input" id="customFile" #filePicker (change)='onImagePicked($event)'>
       <label class="custom-file-label" for="customFile">Choose file</label>
     </div>
+
     <div class='image-preview' *ngIf='imagePreview !== "" && imagePreview && form.get("image").valid'>
       <img [src]="imagePreview" [alt]="form.value.title">
     </div>

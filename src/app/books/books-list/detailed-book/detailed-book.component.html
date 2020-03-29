@@ -1,0 +1,10 @@
+<div class="jumbotron">
+  <h1 class="display-4">{{book?.title}} by: {{book?.author}}</h1>
+  <img [src]="book?.imagePath" alt="">
+  <hr class="my-4">
+  <h6>Description of this book</h6>
+  <p>{{book?.description}}</p>
+  <p class="lead">
+    <a class="btn btn-primary btn-lg" [routerLink]="['/']">Go to books list</a>
+  </p>
+</div>

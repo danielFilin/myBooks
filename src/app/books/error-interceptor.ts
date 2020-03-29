@@ -21,7 +21,6 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError( (error: HttpErrorResponse) => {
         this.authService.getAuthStatusListener2(false);
-        console.log(error);
         return throwError(error);
       })
     );

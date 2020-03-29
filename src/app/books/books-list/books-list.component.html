@@ -6,12 +6,20 @@
   </div>
 </div>
 <div *ngIf='books.length > 0 && !isLoading'>
-  <div class="card my-books mb-3 mr-3" style="width: 18rem;" *ngFor='let book of books'>
-    <h5 class="card-title text-center"> Book Title: {{ book.title}} By: {{ book.author}}</h5>
+  <div class="card my-books mb-3 mr-3 book-card" style="width: 18rem;" *ngFor='let book of books'>
+    <a class="btn btn-info" [routerLink]="['/details', book.id]">Show More Details</a>
+    <div>
+      <h6 class="card-title text-muted d-inline"> Book Title: </h6>
+      <span>{{ (book.title) | slice:0:18}}</span>
+    </div>
+    <div>
+      <h6 class="text-muted d-inline"> By: </h6>
+      <span>{{ (book.author) | slice:0:18}}</span>
+    </div>
     <img [src]="book.imagePath" [alt]="book.title" class="card-img-top">
-    <div class="card-body">
-
-      <p class="card-text">Short description: {{ book.description}}</p>
+    <div class="card-body book-card-body">
+      <p class="card-text text-muted d-inline">Short description: </p>
+      <span class='description-text' small>{{ (book.description) | slice:0:22}}</span>
       <div *ngIf='userIsAuthenticated && userId === book.creator'>
         <button (click)="onDeleteBook(book.id)" class="btn btn-danger mr-3">Delete Book</button>
         <button [routerLink]="['/edit', book.id]" class="btn btn-info">Edit Book</button>

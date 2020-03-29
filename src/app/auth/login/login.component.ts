@@ -11,6 +11,8 @@ import { Subscription } from 'rxjs';
 export class LoginComponent implements OnInit, OnDestroy {
 
   isLoading = false;
+  isErrorOnSignup = false;
+  hasErrors = false;
   private authStatusSub: Subscription;
 
   constructor(public authService: AuthService) { }
@@ -19,15 +21,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
       authStatus => {
         this.isLoading = false;
+        this.isErrorOnSignup = true;
+        document.getElementById('openModalButton').click();
       }
     );
-
-    this.authService
-
   }
 
   onLogin(form: NgForm) {
     if (form.invalid) {
+      this.hasErrors = true;
       return;
     }
     this.isLoading = true;
