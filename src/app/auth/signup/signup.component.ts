@@ -23,7 +23,7 @@ export class SignupComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       }
     );
-    this.authService.getTest().subscribe(
+    this.authService.isErrorOnSignupOrLogin().subscribe(
       status => {
         this.isErrorOnSignup = true;
         document.getElementById('openModalButton').click();

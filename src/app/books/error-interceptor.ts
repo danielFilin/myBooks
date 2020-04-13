@@ -20,7 +20,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError( (error: HttpErrorResponse) => {
-        this.authService.getAuthStatusListener2(false);
+        this.authService.getErrorOnSignup(false);
         return throwError(error);
       })
     );
