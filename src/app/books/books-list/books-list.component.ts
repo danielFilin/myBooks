@@ -41,7 +41,6 @@ export class BooksListComponent implements OnInit, OnDestroy {
       this.totalPosts = bookData.bookCount;
     });
     this.userIsAuthenticated = this.authService.getIsAuth();
-    console.log(this.userIsAuthenticated);
     this.authStatusSubs = this.authService.getAuthStatusListener()
     .subscribe( isAuthenticated => {
       this.userIsAuthenticated = isAuthenticated;

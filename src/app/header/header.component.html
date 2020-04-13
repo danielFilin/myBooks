@@ -2,13 +2,13 @@
   <!-- Links -->
   <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item" *ngIf='userIsAuthenticated'>
+      <li class="nav-item" *ngIf='userIsAuthenticated && !userIsOnLoginPage'>
         <button class="btn btn-outline-success nav-link books-list-link mr-3" routerLink='' [routerLinkActiveOptions]="{exact: true}" [routerLinkActive]="['is-active']">List of my Books</button>
       </li>
       <li class="nav-item" *ngIf='!userIsAuthenticated'>
         <h6>Signup or login to start</h6>
       </li>
-      <li class="nav-item" *ngIf='userIsAuthenticated'>
+      <li class="nav-item" *ngIf='userIsAuthenticated && !userIsOnLoginPage'>
         <button class="btn btn-outline-success nav-link books-list-link mr-3" routerLink="/create" [routerLinkActiveOptions]="{exact: true}" [routerLinkActive]="['is-active']">Add new Book</button>
       </li>
     </ul>
@@ -21,10 +21,10 @@
         <li class="nav-item" *ngIf='!userIsAuthenticated'>
           <a class="nav-link" routerLink="/auth/signup" [routerLinkActiveOptions]="{exact: true}" [routerLinkActive]="['is-active']">Signup</a>
         </li>
-        <li class="nav-item" *ngIf='userIsAuthenticated'>
+        <li class="nav-item" *ngIf='userIsAuthenticated && !userIsOnLoginPage'>
           <button class="btn btn-info mr-3" (click)='showCollection($event.target)'>Show All Books</button>
         </li>
-        <li class="nav-item" *ngIf='userIsAuthenticated'>
+        <li class="nav-item" *ngIf='userIsAuthenticated && !userIsOnLoginPage'>
           <button class="btn btn-danger" (click)='onLogout()'>Logout</button>
         </li>
       </ul>

@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { BooksService } from '../books/books.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +11,9 @@ import { ActivatedRoute } from '@angular/router';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   private authListenerSubs: Subscription;
+  private isOnLoginPage: Subscription;
   userIsAuthenticated = false;
+  userIsOnLoginPage = false;
   userId: string;
 
   constructor(private authService: AuthService, private booksService: BooksService) { }
@@ -22,6 +23,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authListenerSubs = this.authService.getAuthStatusListener().subscribe(isAuthenticated => {
       this.userIsAuthenticated = isAuthenticated;
     });
+
+    this.isOnLoginPage = this.authService.isCurrentlyOnLoginPage().subscribe(isLogin => {
+      this.userIsOnLoginPage = isLogin;
+    });
+
   }
 
   onLogout() {

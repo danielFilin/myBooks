@@ -18,6 +18,7 @@ export class AuthService {
   private userId: string;
   private authStatusListener = new Subject<boolean>();
   private signupStatus = new Subject<boolean>();
+  private isOnLoginPage = new Subject<boolean>();
 
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) { }
 
@@ -30,7 +31,6 @@ export class AuthService {
   }
 
   getAuthStatusListener() {
-    console.log('here');
     return this.authStatusListener.asObservable();
   }
 
@@ -46,6 +46,14 @@ export class AuthService {
 
   getUserId() {
     return this.userId;
+  }
+
+  isCurrentlyOnLoginPage() {
+    return this.isOnLoginPage.asObservable();
+  }
+
+  isLoginPage(status) {
+    this.isOnLoginPage.next(status);
   }
 
   createUser(email: string, password: string) {

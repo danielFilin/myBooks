@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         document.getElementById('openModalButton').click();
       }
     );
+    this.authService.isLoginPage(true);
   }
 
   onLogin(form: NgForm) {
@@ -44,6 +45,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.authStatusSub.unsubscribe();
+    this.authService.isLoginPage(false);
   }
 
 }
