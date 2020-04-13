@@ -12,11 +12,12 @@ const BACKEND_URL = environment.apiUrl + '/books/';
   providedIn: 'root'
 })
 export class BooksService {
+  private myBooks: Book[] = [];
+  updatedBookList = new Subject<{books: Book[], bookCount: number}>();
+  exampleEmitter = new Subject<any>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  private myBooks: Book[] = [];
-  updatedBookList = new Subject<{books: Book[], bookCount: number}>();
   getUpdatedBookList() {
     return this.updatedBookList.asObservable();
   }
@@ -31,7 +32,6 @@ export class BooksService {
     .subscribe( (responseData) => {
       this.router.navigate(['/']);
     });
-
   }
 
    updateBook(id: string, author: string, title: string, description: string, image: File | string) {
@@ -92,6 +92,20 @@ export class BooksService {
           books: [...this.myBooks],
           bookCount: updatedBookData.maxBooks
         });
+    });
+  }
+
+  findBooks(query, searchCategory) {
+    const currentBooks = [...this.myBooks];
+    let searchedBooks = [];
+    currentBooks.forEach(book => {
+      if (book[searchCategory].toLowerCase().search(query) !== -1) {
+        searchedBooks.push(book);
+      }
+    });
+    this.updatedBookList.next({
+      books: [...searchedBooks],
+      bookCount: searchedBooks.length
     });
   }
 

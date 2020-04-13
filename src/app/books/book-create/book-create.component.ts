@@ -70,7 +70,6 @@ export class BookCreateComponent implements OnInit, OnDestroy {
 
   onSaveBook() {
     if (this.form.invalid) {
-
       return;
     }
     const id = null;

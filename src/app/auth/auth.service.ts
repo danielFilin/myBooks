@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthData } from './auth-data-model';
 import { Subject, Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { environment } from '../../environments/environment';
 
@@ -19,7 +19,7 @@ export class AuthService {
   private authStatusListener = new Subject<boolean>();
   private test = new Subject<boolean>();
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute) { }
 
   getToken() {
     return this.token;
@@ -32,6 +32,19 @@ export class AuthService {
   getAuthStatusListener() {
     return this.authStatusListener.asObservable();
   }
+
+  // getLoginStatusListener() {
+  //   console.log(status);
+  //   return this.isLogin.asObservable();
+  // }
+
+  // loginStatusEmitter(isOnLoginPage) {
+  //   if (isOnLoginPage) {
+  //     this.isLogin.next(isOnLoginPage);
+  //   } else {
+  //     this.isLogin.next(!isOnLoginPage);
+  //   }
+  // }
 
   getTest() {
     return this.test.asObservable();
@@ -108,7 +121,14 @@ export class AuthService {
     clearTimeout(this.tokenTimer);
     this.clearAuthData();
     this.userId = null;
-    this.router.navigate(['/']);
+    this.router.navigate(['/login'], {relativeTo: this.route});
+
+  }
+
+  reloadComponent() {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate(['/same-route']);
   }
 
   private saveAuthData(token: string, expirationDate: Date, userId: string) {

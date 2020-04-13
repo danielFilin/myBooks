@@ -8,7 +8,7 @@ exports.createUser = async (req, res, next)  => {
     const user = new User({
       email: req.body.email,
       password: hash
-    });
+  });
     const newUser = await user.save();
     res.status(201).json({
       message: 'user was created',

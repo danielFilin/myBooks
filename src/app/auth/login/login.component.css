@@ -1,8 +1,16 @@
+.main-header{
+  text-align: center;
+}
+
 .hide{
   display: none;
 }
 
-.show {
+.show, .help-block {
   display: block;
   color: red;
+}
+
+input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
+  border: 1px solid red;
 }

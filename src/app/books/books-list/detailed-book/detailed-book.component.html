@@ -1,10 +1,39 @@
-<div class="jumbotron">
+<div class="jumbotron text-center hoverable p-4">
+  <div class="row">
+    <div class="col-md-4 offset-md-1 mx-3 my-3">
+      <div class="view overlay">
+        <img [src]="book?.imagePath" class="img-fluid" alt="Sample image for first version of blog listing">
+        <a>
+          <div class="mask rgba-white-slight"></div>
+        </a>
+      </div>
+    </div>
+    <div class="col-md-7 text-md-left ml-3 mt-3">
+        <h6 class="h6 pb-1">Your book detailed description</h6>
+        <h3>{{book?.title}}</h3>
+        <h4>Written by: {{book?.author}}</h4>
+      <p class="font-weight-normal">{{book?.description}}</p>
+      <p class="font-weight-normal">by <a><strong>User name</strong></a> created at:</p>
+      <p class="lead">
+        <a class="btn btn-primary btn-lg back-navigation" [routerLink]="['/']">Go back to books list</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="jumbotron">
   <h1 class="display-4">{{book?.title}} by: {{book?.author}}</h1>
-  <img [src]="book?.imagePath" alt="">
+  <div class="col xs-6">
+    <img [src]="book?.imagePath" alt="">
+  </div>
+  <div class="col-xs-6">
+
+  </div>
   <hr class="my-4">
   <h6>Description of this book</h6>
   <p>{{book?.description}}</p>
   <p class="lead">
     <a class="btn btn-primary btn-lg" [routerLink]="['/']">Go to books list</a>
   </p>
-</div>
+</div> -->

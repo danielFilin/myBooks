@@ -4,9 +4,10 @@ a {
 }
 
 a:hover {
-  color: rgb(192, 59, 26)
+  color: rgb(185, 96, 74)
 }
 
-.is-active{
-  color: rgb(118, 110, 223)
+.books-list-link:hover{
+  background-color: rgb(216, 216, 35);
+  color: white;
 }

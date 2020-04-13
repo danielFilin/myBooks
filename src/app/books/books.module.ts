@@ -7,13 +7,15 @@ import { BooksListComponent} from './books-list/books-list.component';
 import { RouterModule } from '@angular/router';
 import { SearchComponent } from './search/search.component';
 import { DetailedBookComponent } from './books-list/detailed-book/detailed-book.component';
+import { PageViewComponent } from './books-list/page-view/page-view.component';
 
 @NgModule({
   declarations: [
     BookCreateComponent,
     BooksListComponent,
     SearchComponent,
-    DetailedBookComponent
+    DetailedBookComponent,
+    PageViewComponent
   ],
   imports: [
     CommonModule,

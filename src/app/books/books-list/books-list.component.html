@@ -1,52 +1,39 @@
-<app-search></app-search>
+<app-search *ngIf='searchBarView'></app-search>
 <h1 class="text-center mb-5">My Library</h1>
-<div class="d-flex justify-content-center" *ngIf='isLoading'>
+<button *ngIf='userIsAuthenticated' type="button" class="btn btn-outline-secondary btn-lg" (click)='toggleSearchBar($event.target)'>Search my Books</button>
+ <div class="d-flex justify-content-center" *ngIf='isLoading'>
   <div class="spinner-border" role="status">
     <span class="sr-only">Loading...</span>
   </div>
 </div>
-<div *ngIf='books.length > 0 && !isLoading'>
-  <div class="card my-books mb-3 mr-3 book-card" style="width: 18rem;" *ngFor='let book of books'>
-    <a class="btn btn-info" [routerLink]="['/details', book.id]">Show More Details</a>
-    <div>
-      <h6 class="card-title text-muted d-inline"> Book Title: </h6>
-      <span>{{ (book.title) | slice:0:18}}</span>
-    </div>
-    <div>
-      <h6 class="text-muted d-inline"> By: </h6>
-      <span>{{ (book.author) | slice:0:18}}</span>
-    </div>
-    <img [src]="book.imagePath" [alt]="book.title" class="card-img-top">
-    <div class="card-body book-card-body">
-      <p class="card-text text-muted d-inline">Short description: </p>
-      <span class='description-text' small>{{ (book.description) | slice:0:22}}</span>
-      <div *ngIf='userIsAuthenticated && userId === book.creator'>
-        <button (click)="onDeleteBook(book.id)" class="btn btn-danger mr-3">Delete Book</button>
-        <button [routerLink]="['/edit', book.id]" class="btn btn-info">Edit Book</button>
+  <hr>
+  <div class="card mb-3 mr-3 card-container" *ngFor="let book of books">
+    <div class="row no-gutters body-container">
+      <div class="col-md-4 image-container">
+       <img [src]="book.imagePath" class='card-image' alt="">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <a class="btn btn-warning w-100 mb-1" [routerLink]="['/details', book.id]">Show More Details</a>
+          <h5 class="card-title text-center">{{book.title}}</h5>
+          <h6 class="text-muted d-inline"> By: </h6>
+          <span>{{ (book.author) | slice:0:18}}</span>
+          <br>
+          <p class="card-text text-muted d-inline">Short description: </p>
+      <span class='description-text' small>{{ (book.description.length>6)? (book.description | slice:0:160)+'...':(book.description)}}</span>
+      <div class='buttons-div' *ngIf='userIsAuthenticated && userId === book.creator'>
+        <button (click)="onDeleteBook(book.id)" class="btn btn-danger btn-sm mr-1">Delete Book</button>
+        <button [routerLink]="['/edit', book.id]" class="btn btn-info btn-sm float-right">Edit Book</button>
+      </div>
+        </div>
       </div>
     </div>
+
   </div>
-<p *ngIf='books.length <= 0 !isLoading'> No books</p>
-<form (submit)='onSelect(selectForm)' class='mt-5' #selectForm='ngForm' *ngIf='books.length > 0'>
-  <h4 class='text-center'>Select what pages to show</h4>
-   <div class="form-group" >
-     <label for="sel1">Select starting page:</label>
-     <select class="form-control w-25" name='startingPage' ngModel #startingPage='ngModel'>
-       <option>1</option>
-       <option>2</option>
-       <option>3</option>
-       <option>4</option>
-     </select>
-   </div>
-   <div class="form-group">
-    <label for="sel1">Select amount of pages:</label>
-    <select class="form-control w-25" name='pagesNumber' ngModel #pagesNumber='ngModel'>
-      <option>1</option>
-      <option>3</option>
-      <option>5</option>
-    </select>
-  </div>
-   <button class="btn btn-primary mb-3">Select</button>
- </form>
+  <p *ngIf='books.length <= 0 !isLoading'> No books added yet</p>
+  <button class="btn btn-info lg view-settings" (click)='toggleViewSettings($event.target)' *ngIf='userIsAuthenticated'>Show View Settings</button>
+
+<app-page-view *ngIf="settingsView && (userIsAuthenticated === true)"></app-page-view >
+
 
 

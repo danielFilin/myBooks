@@ -1,0 +1,23 @@
+.main-header{
+    text-align: center;
+}
+
+.hide{
+  display: none;
+}
+
+.show, .help-block {
+  display: block;
+  color: red;
+}
+
+input.ng-invalid.ng-touched, textarea.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+.wrong-input {
+  text-align: center;
+  color: red;
+}
+
+

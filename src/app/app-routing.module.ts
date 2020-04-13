@@ -4,6 +4,7 @@ import { BooksListComponent } from './books/books-list/books-list.component';
 import { BookCreateComponent } from './books/book-create/book-create.component';
 import { AuthGuard } from './auth/auth.guard';
 import { DetailedBookComponent } from './books/books-list/detailed-book/detailed-book.component';
+import { PageViewComponent } from './books/books-list/page-view/page-view.component';
 
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'create', component: BookCreateComponent, canActivate: [AuthGuard]},
   { path: 'edit/:bookId', component: BookCreateComponent, canActivate: [AuthGuard]},
   { path: 'details/:bookId', component: DetailedBookComponent, canActivate: [AuthGuard]},
+  { path: 'veiw-settings', component: PageViewComponent, canActivate: [AuthGuard]},
   { path: 'auth', loadChildren: './auth/auth.module#AuthModule'}
 ];
 

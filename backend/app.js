@@ -15,17 +15,18 @@ mongoose.connect('mongodb+srv://filin:' + process.env.MONGO_ATLAS_PW + '@cluster
   console.log((path.join(__dirname, 'images')))
   console.log('connected to DB 22');
 })
-.catch( ()=> {
+.catch( (err)=> {
+  console.log(err);
   console.log('connectionf failed');
 })
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false}));
-app.use('/images', express.static(path.join(__dirname, 'images')));
-app.use('/', express.static(path.join(__dirname, 'books-project')));
-
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/images', express.static(path.join('backend/images')));
+//app.use('/images', express.static(path.join(__dirname, 'images')));
+// app.use('/', express.static(path.join(__dirname, 'books-project')));
 
 
 app.use( (req, res, next) => {
@@ -39,8 +40,8 @@ app.use( (req, res, next) => {
 
 app.use('/api/books', BooksRoutes);
 app.use('/api/user', userRoutes);
-app.use((req, res, next) => {
-  res.sendFile(path.join(__dirname, 'books-project', 'index.html'));
-});
+// app.use((req, res, next) => {
+//   res.sendFile(path.join(__dirname, 'books-project', 'index.html'));
+// });
 
 module.exports = app;

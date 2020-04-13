@@ -1,0 +1,22 @@
+<form (submit)='onSelect(selectForm)' class='mt-5' #selectForm='ngForm'>
+  <h4 class='text-center'>Select what pages to show</h4>
+   <div class="form-group" >
+     <label for="sel1">Select starting page:</label>
+     <select class="form-control w-25" name='startingPage' ngModel #startingPage='ngModel'>
+       <option>1</option>
+       <option>2</option>
+       <option>3</option>
+       <option>4</option>
+     </select>
+   </div>
+   <div class="form-group">
+    <label for="sel1">Select amount of pages:</label>
+    <select class="form-control w-25" name='pagesNumber' ngModel #pagesNumber='ngModel'>
+      <option>1</option>
+      <option>3</option>
+      <option>5</option>
+    </select>
+  </div>
+   <button class="btn btn-primary mb-3">Select</button>
+ </form>
+

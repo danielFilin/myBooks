@@ -1,3 +1,11 @@
 <div class="active-pink-3 active-pink-4 mb-4">
-  <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+  <div class="form-group">
+    <label for="sel1">Sort By:</label>
+    <select class="form-control" id="select" (change)='onSelect($event.target.value)'>
+      <option>Author</option>
+      <option>Title</option>
+      <option>Description</option>
+    </select>
+  </div>
+  <input class="form-control" type="text" placeholder="Search" aria-label="Search" (keyup)='findBooks($event.target)'>
 </div>

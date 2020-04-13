@@ -1,3 +1,8 @@
 img {
   width: 22rem;
 }
+
+.back-navigation{
+  position: absolute;
+  bottom: 0;
+}

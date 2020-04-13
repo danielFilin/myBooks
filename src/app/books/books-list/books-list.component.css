@@ -25,6 +25,32 @@
   padding: 0.5rem;
 }
 
-.book-card-body{
+.book-card-body, .card-body{
   padding: 0.3rem;
+}
+
+div .card-image{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  padding: 0.3rem;
+}
+
+.card-container{
+  width: 45%;
+  display: -webkit-inline-box;
+}
+
+.body-container{
+  padding: 0;
+  min-height: 18rem;
+}
+
+.view-settings{
+  display: block;
+}
+
+.buttons-div{
+  position: absolute;
+  bottom: 0.5rem;
 }

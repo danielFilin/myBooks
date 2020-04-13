@@ -3,27 +3,42 @@
     <span class="sr-only">Loading...</span>
   </div>
 </div>
-<form (submit)='onLogin(loginForm)' #loginForm='ngForm' *ngIf='!isLoading'>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email" name='email' ngModel #emailInput='ngModel' required email>
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-    <span [ngClass]='{
-      show: hasErrors,
-      hide: !hasErrors
-    }'>This field cannot be left blank</span>
+<div class="d-flex justify-content-center align-items-center container ">
+  <div class="row">
+  <form (submit)='onLogin(loginForm)' #loginForm='ngForm' *ngIf='!isLoading'>
+    <h5 class='main-header'>Login</h5>
+    <div class="form-group">
+      <label for="exampleInputEmail">Email address</label>
+      <input
+      type="email"
+      class="form-control"
+      aria-describedby="emailHelp"
+      placeholder="Enter email"
+      name='email'
+      ngModel
+      #email='ngModel'
+      required
+      email>
+      <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      <span class='help-block' *ngIf='!email.valid && email.touched'>You must enter your correct email address</span>
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input
+      type="password"
+      class="form-control"
+      placeholder="Password"
+      name='password'
+      #password='ngModel'
+      ngModel
+      minlength='5'>
+    </div>
+    <span class='help-block' *ngIf='!password.valid && password.touched'>Please enter your password</span>
+    <button type="submit" class="btn btn-primary" [disabled]='loginForm.invalid'>Login</button>
+  </form>
   </div>
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" placeholder="Password" name='password' ngModel #passwordInput='ngModel'>
-  </div>
-  <span [ngClass]='{
-    show: hasErrors,
-    hide: !hasErrors
-  }'>This field cannot be left blank</span>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-<div class="container">
+</div>
+<!-- <div class="container">
   <button id="openModalButton" type="button" [hidden]="true" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
   </button>
   <div class="modal" id="myModal">
@@ -42,4 +57,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
